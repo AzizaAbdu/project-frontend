@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form</title>
+</head><fieldset>
+<body class="aziza">
+ <center> <h1>REGISTRATION</h1>  
+  <form id="rg">id:<br>
+    <input type="number" name="id" id="id"><br>
+    FirstName:<br><input type="text" name="FirstName" id="FirstName"><br>
+   MiddleName:<br> <input type="text" name="MiddleName" id ="Mname"><br>
+   LastName:<br> <input type="text" name="LastName" id="Lname"><br> 
+    Email:<br><input type="email" name="Email" id="Em"><br>
+  <br><button type="submit"> submit</button>
+
+  </form>
+</center>
+</fieldset>
+  <script>
+ const form =document.getElementById('rg');
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        alert("successfully save");
+        window.location.href ='login.html';
+     
+
+        let id =document.getElementById('id');
+        let FirstName =document.getElementById('FirstNme'); 
+         let LastName=document.getElementById('Lname');
+        let Email =document.getElementById('Em');
+        let MiddleName =document.getElementById('Mname');
+       
+
+        const formdata =new FormData(form);
+        const User =Object.fromEntries(formdata.entries());
+
+       
+        fetch('http://localhost:8080/User/Save',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(User)
+        })
+
+        .then (response=>response.json())
+        .then(data =>{
+         
+            console.log('user created ',data);
+           
+        
+        }).catch(error =>{
+            console.error('ERROR ',error)
+        });
+           
+    });
+
+
+  </script>
+
+  <style>
+.aziza{
+    background-image: image-set("p1.jpg");
+    margin-bottom: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        align-items: center;
+        justify-content: center;
+        height: 110%;
+        width: 280px;
+        background-color:blueviolet;
+         padding-left: 1.5%;
+
+}
+  
+
+</style>
+</body>
+</html>

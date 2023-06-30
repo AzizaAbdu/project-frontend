@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <center> <h1>USER MANAGEMENT </h1></center> 
+<table>
+    <thead>
+  <tr>
+<th>ID</th>
+<th>OwnerName</th>
+<th>Adress</th>
+<th>Gender</th>
+<th>Date of Birth</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Hotel'sName</th>
+<th>Country</th>
+<th>Hotel'sAdrres</th>
+<th>Document Type</th>
+ <th>Action</th>
+  </tr>
+</thead>
+<tbody id="LIST">
+
+</tbody>
+
+
+</table>
+
+
+<style>
+    table, th, td,tr{
+        background-color:whitesmoke;
+        height: 25px;
+        width: 25px;
+        margin: 1px; 
+        border: 2px solid black;
+        padding: 1px;
+
+       border-collapse: collapse;
+    }
+    body{
+        background-image: image-set("p6.jpg");
+    }
+
+.th{  
+  
+    width: 45px;
+    height: 50px;
+   padding: 20px;
+
+}
+.td{
+background-color: brown;
+}
+
+.lm{
+clear: both;
+text-align: center;
+
+
+}
+
+</style> 
+  <script>    
+
+
+fetch("http://localhost:8080/Hotel/GetAll")
+.then((data)=>{
+    return data.json();
+}).then((Data)=>{
+    let LIST="";
+    Data.forEach(li =>{
+        LIST+=`
+        <tr>
+            <td>${li.Owner_id}</td>
+            <td>${li.OwnerName}</td>
+            <td>${li.Adress}</td>
+            <td>${li.Gender}</td>
+            <td>${li.date}</td>
+            <td>${li.Email}</td>
+            <td>${li.Phone}</td>
+            <td>${li.Hotel_Name}</td>
+            <td>${li.Country}</td>
+             <td>${li.Hotel_Adress}</td>
+            <td>${li.Document_Type}</td>
+           
+            <td>
+
+              <button>  <a href="Edit.html?id=${li.Owner_id}">EDIT</a></button>
+            <button>  <a href="list.html?id=${li.Owner_id}">DELETE</a></button>
+            </td>
+
+           
+
+
+            
+         </tr>
+        
+        `
+    });
+    document.getElementById('LIST').innerHTML=LIST;
+});
+
+
+
+//
+const url =new URLSearchParams(window.location.search);
+const ownerid = url.get('id');
+
+fetch(`http://localhost:8080/Hotel/DELETE/${ownerid}`,{
+    method:'DELETE',
+    headers:{
+                'Content-Type':'application/json'
+         } 
+}).then (res =>{
+    if(res.ok){
+        console.log("Deleted");
+        window.location.reload();
+    }
+    else{
+        console.log("undeleted");
+    }
+    return res
+})
+.then(res =>console.log(res))
+
+
+
+
+
+   </script>   
+
+
+
+</body>
+</html>

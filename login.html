@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+</head>
+<body class="pic">
+    <center>
+        <div class="lo">
+        <h1>LOGIN FORM</h1>
+    <form id="form">
+id:<br>
+<input type="number" name="id" id="id"><br>
+Email:<br>
+<input type="email" name="Email" id="Email"><br>
+<br><button type="submit">Login</button>
+</center>
+</div>
+
+
+
+    </form>
+
+    
+    <script>
+        const  Login =document.getElementById('form');
+        Login.addEventListener('submit',(event)=>{
+            event.preventDefault();
+            let id=document.getElementById('id').value;
+            let Email=document.getElementById('Email').value;
+
+fetch('http://localhost:8080/User/GetAll')
+.then(response => response.json())
+.then(data =>{
+    const match=data.find(user=>user.id == id && user.Email == Email);
+    if(match){
+        alert("success");
+        window.location.href ='Dashboad.html';
+    }
+    else{
+        alert("un match data");
+    }
+
+})
+.catch(error =>{
+    console.error("error",error);
+    alert ("Error")
+
+});
+
+});
+        </script>
+
+        <style>
+
+.pic{
+    background-image: image-set("p6.jpg");
+}
+
+.lo{
+        margin-bottom: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        align-items: center;
+        justify-content: center;
+        height: 110%;
+        width: 280px;
+        background-color:grey;
+        
+        padding-left: 1.5%;
+       
+   
+}
+        </style>
+</body>
+</html>

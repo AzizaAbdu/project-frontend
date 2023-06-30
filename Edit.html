@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="FORM">
+        <form id="frm">
+         <p><label class="p">OwnerName:</label><input type="text" style="margin-left:90px" name="OwnerName" id="own"></p>
+        <p><label class="p">Address:</label><input type="text" style="margin-left:90px;" name="Adress" id="Adress"></p>
+       
+            <p> <label class="p">Gender</label> </label><input type="radio" style="margin-left: 90px;" name="Gender" id="Gender">Male<input type="radio">Female</p>
+            <p>
+                <label class="p">Phone</label><input type="number" name="Phone" id="Phone" style="margin-left: 90px;">
+            </p>
+            <p>
+                <label class="p">Date  of Birth</label><input type="date" name="date" id="date" style="margin-left: 90px;">
+            </p>
+            <p>
+                <label class="p">Email</label><input type="Email" name="Email" id="Email" style="margin-left: 90px;">
+            </p>
+            <p>
+                <label class="p">Hotel'sName</label><input type="text" name="Hotel_Name" id="Hotel_Name" style="margin-left: 90px;">
+            </p>
+           <p>
+            <label class="p">Country</label><input type="text" name="Country" id="Country" style="margin-left:90px;">
+           </p>
+           <p>
+            <label class="p">Hotel's Address</label><input type="text" name="Hotel_Adress" id="Hotel_Adress" style="margin-left:90px;"
+           </p>
+            <p>
+                <label class="p">Document Type</label><input type="text" name="Document_Type" id="Document_Type" style="margin-left:90px;">
+            </p>
+       
+        </p>
+<p>
+            <button input type="submit">Submit</button>
+            <button input type="canc"> cancel</button></p>
+</form>
+         </div>
+        
+        </body>
+        
+        
+        
+        
+        <style>
+
+    .REG{
+        
+        height: 70px;
+    width: 80%;
+    background-color:green;
+    margin: auto;
+    align-items: left;
+    text-align: center; 
+    padding: 0%;
+        
+    }
+
+    .FORM{
+        background-color:white;
+        text-align: left;
+        padding-left: 1.5%;
+        
+    }
+    body{
+        background-image: image-set("dash.jpg");
+
+    }
+    .p{
+        width: auto;
+    
+    }
+    </style>
+    
+<script>
+    const url =new URLSearchParams(window.location.search);
+   const ownerid = url.get('id');
+
+fetch(`http://localhost:8080/Hotel/GETBYID/${ownerid }`)
+.then(response =>response.json())
+.then(data=>{
+
+
+        let OwnerName =document.getElementById('own').value=data.OwnerName;
+        let Adress =document.getElementById('Adress').value=data.Adress; 
+        let Gender =document.getElementById('Gender').value=data.Gender;
+        let Phone =document.getElementById('Phone').value=data.Phone;
+        let Enmail =document.getElementById('Email').value=data.Email;
+        let Hotel_Name =document.getElementById('Hotel_Name').value=data.Hotel_Adress;
+        let Country =document.getElementById('Country').value=data.Country;
+        let Hotel_Adress=document.getElementById('Hotel_Adress').value=data.Hotel_Adress;
+        let Document_Type =document.getElementById('Document_Type').value=data.Document_Type;
+        let date =document.getElementById('date').value=data.date;
+});
+
+
+
+
+
+//UPDATE
+const form =document.getElementById('frm');
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+
+        let OwnerName =document.getElementById('own');
+        let Adress =document.getElementById('Adress'); 
+        let Gender =document.getElementById('Gender');
+        let Phone =document.getElementById('Phone');
+        let Enmail =document.getElementById('Email');
+        let Hotel_Name =document.getElementById('Hotel_Name');
+        let Country =document.getElementById('Country');
+        let Hotel_Adress=document.getElementById('Hotel_Adress');
+        let Document_Type =document.getElementById('Document_Type');
+        let date =document.getElementById('date');
+
+        const formdata =new FormData(form);
+        const owner =Object.fromEntries(formdata.entries());
+
+
+        fetch(`http://localhost:8080/Hotel/Update/${ownerid}`,{
+            method:'PUT',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(owner)
+        })
+
+        .then (response=>response.json())
+        .then(data =>{
+            console.log('user created ',data);
+            alert("successfully save");
+        }).catch(error =>{
+            console.error('ERROR ',error)
+        });
+           
+    });
+
+</script>  
+</body>
+</html>
